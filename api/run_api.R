@@ -2,5 +2,5 @@
 devtools::load_all()
 library(plumber)
 
-plumber::pr("api/climatehealth_api.R") %>%
+plumber::pr("climatehealth_api.R") %>%
   plumber::pr_run(port=8000)

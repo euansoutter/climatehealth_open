@@ -1,5 +1,28 @@
 library(plumber)
 library(climatehealth)
+library(zeallot)
+library(webutils)
+library(readr)
+
+#* @filter cors
+function(res) {
+  res$setHeader("Access-Control-Allow-Origin", "*")
+  res$setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
+  res$setHeader("Access-Control-Allow-Headers", "Content-Type")
+  plumber::forward()
+}
+
+#* Handle OPTIONS requests (preflight)
+#* @param req Request object
+#* @options /regression
+function(req, res) {
+  if (req$REQUEST_METHOD == "OPTIONS") {
+    res$status <- 200
+    return(list())
+  }
+  plumber::forward()
+}
+
 
 #* @apiTitle Climatehealth regression
 #* @apiDescription An API that computes Quasi-Poission regression

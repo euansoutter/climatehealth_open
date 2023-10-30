@@ -33,21 +33,38 @@ load_data <- function(input_csv_path,
                       time_range_start,
                       time_range_end) {
 
-  if(substr(input_csv_path, nchar(input_csv_path) - 3, nchar(input_csv_path)) !=
-     '.csv') {
-
-    stop("Input path must be a CSV")
-
+  if (is.list(input_csv_path) == TRUE) {
+    
+    print('data upload by API')
+    
+    df <- data.frame(input_csv_path)
+    
+    df <- df %>%
+      dplyr::rename(dependent = dependent_col,
+                    date = time_col,
+                    regnames = region_col,
+                    tmean = temp_col) %>%
+      dplyr::mutate(date = as.Date(date))
   }
-
-
-  df <- read.csv(input_csv_path, row.names = 1) %>%
-    dplyr::rename(dependent = dependent_col,
-                  date = time_col,
-                  regnames = region_col,
-                  tmean = temp_col) %>%
-    dplyr::mutate(date = as.Date(date))
-
+  
+  if (is.character(input_csv_path) == TRUE) {
+    
+    print('data upload by local path')
+    
+    df <- read.csv(input_csv_path, row.names = 1) %>%
+      dplyr::rename(dependent = dependent_col,
+                    date = time_col,
+                    regnames = region_col,
+                    tmean = temp_col) %>%
+      dplyr::mutate(date = as.Date(date))
+  }
+  
+  # if (substr(input_csv_path, nchar(input_csv_path) - 3, nchar(input_csv_path)) !=
+  #       '.csv') {
+  #
+  #    stop("Input path must be a CSV")
+  # }
+  
 
   if (!'NONE' %in% c(time_range_start, time_range_end)) {
 
