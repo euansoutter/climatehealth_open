@@ -1,4 +1,5 @@
 # Run lines below to run API server
+devtools::load_all()
 library(plumber)
 
 plumber::pr("api/climatehealth_api.R") %>%
