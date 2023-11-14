@@ -24,4 +24,6 @@ Imports:
     plumber,
     webutils,
     readr
+Depends: 
+    R (>= 4.1.3)
 
